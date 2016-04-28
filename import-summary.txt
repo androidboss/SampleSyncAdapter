@@ -1,0 +1,61 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* samplesyncadapter_server\
+* samplesyncadapter_server\app.yaml
+* samplesyncadapter_server\cron.yaml
+* samplesyncadapter_server\dashboard.py
+* samplesyncadapter_server\index.yaml
+* samplesyncadapter_server\model\
+* samplesyncadapter_server\model\datastore.py
+* samplesyncadapter_server\static\
+* samplesyncadapter_server\static\css\
+* samplesyncadapter_server\static\css\main.css
+* samplesyncadapter_server\static\img\
+* samplesyncadapter_server\static\img\default_avatar.gif
+* samplesyncadapter_server\templates\
+* samplesyncadapter_server\templates\contacts.html
+* samplesyncadapter_server\templates\edit_avatar.html
+* samplesyncadapter_server\templates\simple_form.html
+* samplesyncadapter_server\web_services.py
+* tests\
+* tests\src\
+* tests\src\com\
+* tests\src\com\example\
+* tests\src\com\example\android\
+* tests\src\com\example\android\samplesync\
+* tests\src\com\example\android\samplesync\AllTests.java
+* tests\src\com\example\android\samplesync\authenticator\
+* tests\src\com\example\android\samplesync\authenticator\AuthenticatorActivityTest.java
+* tests\src\com\example\android\samplesync\client\
+* tests\src\com\example\android\samplesync\client\UserTest.java
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
