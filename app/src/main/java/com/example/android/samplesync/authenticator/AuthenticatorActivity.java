@@ -72,11 +72,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * doesn't cause the user's password or authToken to be changed on the
      * device.
      * 如果设置了，我们检查用户知道他们的证书s；这些
-     * 不会导致用户密码或者令牌被更改，在设备上。
+     * 不会导致用户密码或者令牌被改变
      */
     private Boolean mConfirmCredentials = false;
 
-    /** for posting authentication attempts back to UI thread */
+    /** for posting authentication attempts试图，进攻 back to UI thread */
     private final Handler mHandler = new Handler();
 
     private TextView mMessage;
@@ -85,7 +85,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     private EditText mPasswordEdit;
 
-    /** Was the original caller asking for an entirely new account? */
+    /** 用于标记是否是一个新账号名，还是说从onCreate中传入的一个指定账号名，
+     * 新账号是指原来是空的，用户输入的账号。否则就是别的地方启动这个Activity时候传参
+     * 指定的账号名称*/
+    /** Was the original caller asking for an entirely完整的 new account? */
     protected boolean mRequestNewAccount = false;
 
     private String mUsername;
@@ -104,6 +107,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         Log.i(TAG, "loading data from Intent");
         final Intent intent = getIntent();
         mUsername = intent.getStringExtra(PARAM_USERNAME);
+        // mUsername是否为空，决定了mRequestNewAccount的值
         mRequestNewAccount = mUsername == null;
         mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRM_CREDENTIALS, false);
         Log.i(TAG, "    request new: " + mRequestNewAccount);
@@ -114,6 +118,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mMessage = (TextView) findViewById(R.id.message);
         mUsernameEdit = (EditText) findViewById(R.id.username_edit);
         mPasswordEdit = (EditText) findViewById(R.id.password_edit);
+        // 如果这个mUsername是外部启动传入的，那么就是指定的账号名称，就直接显示出来了
+        // 其实都可以设置一下Edit的改动模式为不可修改，这样也合理些。
         if (!TextUtils.isEmpty(mUsername)) mUsernameEdit.setText(mUsername);
         mMessage.setText(getMessage());
     }
@@ -138,6 +144,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         // We save off the progress dialog in a field so that we can dismiss
         // it later. We can't just call dismissDialog(0) because the system
         // can lose track of our dialog if there's an orientation change.
+        // 保存到一个变量中，因此才能稍后让它消失掉。
+        // 不能仅仅调用dismissDialog(0)，因为系统会丢失这个dialog如果发生横竖屏改变的话。
         mProgressDialog = dialog;
         return dialog;
     }
@@ -150,7 +158,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * @param view The Submit button for which this method is invoked
      */
     public void handleLogin(View view) {
+        // 是否已经指定了用户名？
         if (mRequestNewAccount) {
+            // Activity启动的时候就已经被传参了用户名，指定好了，所以不需要用户输入的
             mUsername = mUsernameEdit.getText().toString();
         }
         mPassword = mPasswordEdit.getText().toString();
@@ -159,6 +169,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         } else {
             // Show a progress dialog, and kick off a background task to perform
             // the user login attempt.
+            // kick off 启动，踢球
             showProgress();
             mAuthTask = new UserLoginTask();
             mAuthTask.execute();
@@ -197,8 +208,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         Log.i(TAG, "finishLogin()");
         final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
         if (mRequestNewAccount) {
+            // explicitley 明白的，明确的
             mAccountManager.addAccountExplicitly(account, mPassword, null);
             // Set contacts sync for this account.
+            // 设置联系人同步这个账号
             ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
         } else {
             mAccountManager.setPassword(account, mPassword);
@@ -262,6 +275,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * Returns the message to be displayed at the top of the login dialog box.
      */
     private CharSequence getMessage() {
+        // 这句代码没啥用啊，不过可以学习一下Context里面提供的这类方法，直接根据id就get出来
         getString(R.string.label);
         if (TextUtils.isEmpty(mUsername)) {
             // If no username, then we ask the user to log in using an

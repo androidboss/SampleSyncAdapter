@@ -46,6 +46,10 @@ import java.util.List;
  * sync between the client and a sample server.  It also contains an
  * example of how to update the contacts' status messages, which
  * would be useful for a messaging or social networking client.
+ * SyncAdapter 实现了同步 SyncAdapter 联系人------不好翻译啊。
+ * 这个例子展示了2种基本的同步方法，介于客户端和例子服务器之间。
+ * 并且包含了一个例子用于更新联系人状态信息,
+ * 对于短线和本地网络客户端来说是有用的。
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -71,11 +75,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             // see if we already have a sync-state attached to this account. By handing
             // This value to the server, we can just get the contacts that have
             // been updated on the server-side since our last sync-up
+            // 查看是否之前已经有了跟这个账号对应的同步标记。
+            // 通过服务器处理过的这个值，我们就可以获取到在服务器端自从最近的一次同步后的已经被更新的联系人。
             long lastSyncMarker = getServerSyncMarker(account);
 
             // By default, contacts from a 3rd party provider are hidden in the contacts
             // list. So let's set the flag that causes them to be visible, so that users
             // can actually see these contacts.
+            // 默认情况下，来自第三方的联系人provider是隐藏在联系人列表里的。
+            // 所以设置一个flag让他们显示出来，
+            // 所以用户能真实的看到这些联系人。
             if (lastSyncMarker == 0) {
                 ContactManager.setAccountContactsVisibility(getContext(), account, true);
             }
@@ -85,8 +94,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             // Use the account manager to request the AuthToken we'll need
             // to talk to our sample server.  If we don't have an AuthToken
-            // yet, this could involve a round-trip to the server to request
+            // yet, this could involve包含 a round-trip来回,往返 to the server to request
             // and AuthToken.
+            // 使用账号管理去请求AuthToken，我们需要跟例子服务器交流。
+            // 如果我们还没有AuthToken，那么可能包含一个来回跟服务器去请求AuthToken。
             final String authtoken = mAccountManager.blockingGetAuthToken(account,
                     Constants.AUTHTOKEN_TYPE, NOTIFY_AUTH_FAILURE);
 
@@ -97,12 +108,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             // Find the local users that need to be sync'd to the server...
             dirtyContacts = ContactManager.getDirtyContacts(mContext, account);
 
-            // Send the dirty contacts to the server, and retrieve the server-side changes
+            // Send the dirty contacts to the server, and retrieve取回 the server-side changes
             updatedContacts = NetworkUtilities.syncContacts(account, authtoken,
                     lastSyncMarker, dirtyContacts);
 
             // Update the local contacts database with the changes. updateContacts()
-            // returns a syncState value that indicates the high-water-mark for
+            // returns a syncState value that indicates表明 the high-water-mark for
             // the changes we received.
             Log.d(TAG, "Calling contactManager's sync contacts");
             long newSyncState = ContactManager.updateContacts(mContext,
@@ -116,13 +127,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             // 2-way contact sync providers - it's more likely that one-way
             // sync providers (IM clients, social networking apps, etc) would
             // use this feature.
-
+            // 演示了如何更新IM-style状态的消息，for客户端的联系人。
+            // 或许不会请求双路联系人同步providers -  这更像是单路同步providers
+            // (即时通讯客户端, 社交网络apps，等等) 会用到这个新特性。
             ContactManager.updateStatusMessages(mContext, updatedContacts);
 
             // Save off the new sync marker. On our next sync, we only want to receive
             // contacts that have changed since this sync...
+            // 保存这个新的同步标记。当我们下次再同步的时候，我们只需要接收
+            // 自从这次同步后改变的联系人就行了。
             setServerSyncMarker(account, newSyncState);
 
+            // 如果还有需要同步的联系人，那么清除同步标记
             if (dirtyContacts.size() > 0) {
                 ContactManager.clearSyncFlags(mContext, dirtyContacts);
             }
@@ -150,6 +166,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * This helper function fetches the last known high-water-mark
      * we received from the server - or 0 if we've never synced.
+     * 从服务器上获取水位线数值，如果是0就说明从来没同步过。
      * @param account the account we're syncing
      * @return the change high-water-mark
      */
@@ -163,8 +180,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Save off the high-water-mark we receive back from the server.
+     * 保存这个高水位线，我们从服务器上获得的
      * @param account The account we're syncing
      * @param marker The high-water-mark we want to save.
+     *               到底是个什么呢？
      */
     private void setServerSyncMarker(Account account, long marker) {
         mAccountManager.setUserData(account, SYNC_MARKER_KEY, Long.toString(marker));
