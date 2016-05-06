@@ -18,7 +18,7 @@ package com.example.android.samplesync.platform;
 import android.provider.ContactsContract.Data;
 
 /*
- * The standard columns representing contact's info from social apps.
+ * The standard columns representing表现 contact's info from social apps.
  */
 public final class SampleSyncAdapterColumns {
 
@@ -26,7 +26,7 @@ public final class SampleSyncAdapterColumns {
     }
 
     /**
-     * MIME-type used when storing a profile {@link Data} entry.
+     * MIME-type used when storing a profile外形 {@link Data} entry.
      */
     public static final String MIME_PROFILE =
         "vnd.android.cursor.item/vnd.samplesyncadapter.profile";

@@ -22,6 +22,8 @@ import android.util.Log;
 /**
  * Service to handle view notifications. This allows the sample sync adapter to update the
  * information when the contact is being looked at
+ * 一个能获取view的notifications的Service。允许sample sync adapter更新
+ * information当联系人被看着
  */
 public class NotifierService extends IntentService {
     private static final String TAG = "NotifierService";
@@ -34,6 +36,8 @@ public class NotifierService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         // In reality, we would write some data (e.g. a high-res picture) to the contact.
         // for this demo, we just write a line to the log
+        // 真实情况下，我们可以写入一些数据（例如高像素的图片）到联系人里。
+        // 为了演示一下，我们就打个log而已。
         Log.i(TAG, "Contact opened: " + intent.getData());
     }
 }

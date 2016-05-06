@@ -26,6 +26,8 @@ import java.lang.StringBuilder;
 /**
  * Represents a low-level contacts RawContact - or at least
  * the fields of the RawContact that we care about.
+ * RawContact表现一个低级别的联系人 - 或者至少
+ * 只包括我们关心的字段
  */
 final public class RawContact {
 

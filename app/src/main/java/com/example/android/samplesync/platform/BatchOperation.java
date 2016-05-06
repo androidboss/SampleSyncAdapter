@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class handles execution of batch mOperations on Contacts provider.
+ * This class handles execution of batch一批 mOperations on Contacts provider.
+ * 批处理
  */
 final public class BatchOperation {
 
